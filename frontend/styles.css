@@ -9,14 +9,36 @@ body {
     max-width: 1000px;
     margin: 0 auto;
     background-color: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    color: #333;
+    color: #2c3e50;
     text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+}
+
+h2 {
+    color: #34495e;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.feature {
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.feature:last-child {
+    margin-bottom: 0;
 }
 
 .controls {
@@ -30,6 +52,11 @@ h1 {
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.input-group label {
+    font-weight: 500;
+    color: #4a5568;
 }
 
 input {
@@ -46,6 +73,8 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
 }
 
 button:hover {
@@ -56,4 +85,5 @@ button:hover {
     position: relative;
     height: 400px;
     width: 100%;
+    margin-top: 15px;
 }

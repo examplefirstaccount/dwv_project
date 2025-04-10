@@ -30,5 +30,21 @@ def mean_temperature(start_year, end_year):
         processor.close()
 
 
+
+@app.route('/api/extreme_countries_temperatures/<int:start_year>/<int:end_year>')
+def extreme_countries_temperatures(start_year, end_year):
+    processor = TemperatureDataProcessor()
+
+    try:
+        df = processor.get_extreme_countries_temperatures(start_year, end_year)
+
+        return jsonify(df)
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        processor.close()
+
+
 if __name__ == '__main__':
     app.run(debug=True)

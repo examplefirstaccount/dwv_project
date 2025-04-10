@@ -3,29 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>European Temperature Trends</title>
+    <title>European Climate Trends Analysis</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>European Mean Temperature by Year</h1>
+        <h1>European Climate Trends Dashboard</h1>
 
-        <div class="controls">
-            <div class="input-group">
-                <label for="start-year">Start Year:</label>
-                <input type="number" id="start-year" min="1950" max="2020" value="1990">
+        <!-- Feature 1: Continental Temperature Trend -->
+        <div class="feature">
+            <h2>European Mean Temperature by Year</h2>
+            <div class="controls">
+                <div class="input-group">
+                    <label for="start-year">Start Year:</label>
+                    <input type="number" id="start-year" min="1950" max="2020" value="1990">
+                </div>
+                <div class="input-group">
+                    <label for="end-year">End Year:</label>
+                    <input type="number" id="end-year" min="1950" max="2020" value="2020">
+                </div>
+                <button id="update-btn">Update Charts</button>
             </div>
-            <div class="input-group">
-                <label for="end-year">End Year:</label>
-                <input type="number" id="end-year" min="1950" max="2020" value="2020">
+            <div class="chart-container">
+                <canvas id="temperatureChart"></canvas>
             </div>
-            <button id="update-btn">Update Chart</button>
         </div>
 
-        <div class="chart-container">
-            <canvas id="temperatureChart"></canvas>
+        <!-- Feature 2: Extreme Countries Comparison -->
+        <div class="feature">
+            <h2>Temperature Trends in Extreme Countries</h2>
+            <div class="chart-container">
+                <canvas id="extremeCountriesChart"></canvas>
+            </div>
         </div>
     </div>
 
