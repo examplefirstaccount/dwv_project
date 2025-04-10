@@ -260,7 +260,9 @@ function renderExtremeCountriesChart(data) {
                 x: {
                     title: { display: true, text: 'Year' },
                     ticks: {
-                        callback: (value, index) => index % 5 === 0 ? value : ''
+                        callback: function(value, index) {
+                            return index % 5 === 0 ? this.getLabelForValue(value) : '';
+                        }
                     }
                 }
             }
