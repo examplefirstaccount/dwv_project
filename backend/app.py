@@ -15,31 +15,51 @@ def hello():
 @app.route('/api/mean_temperature/<int:start_year>/<int:end_year>')
 def mean_temperature(start_year, end_year):
     processor = TemperatureDataProcessor()
-
     try:
         df = processor.get_mean_temperature_by_year(start_year, end_year)
-
         return jsonify({
             'years': df['year'].tolist(),
             'temperatures': df['mean_temp'].tolist()
         })
-
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     finally:
         processor.close()
 
 
+@app.route('/api/country_temperature/<country>/<int:start_year>/<int:end_year>')
+def country_temperature(country, start_year, end_year):
+    processor = TemperatureDataProcessor()
+    try:
+        df = processor.get_mean_temperature_by_year(start_year, end_year, country)
+        return jsonify({
+            'years': df['year'].tolist(),
+            'temperatures': df['mean_temp'].tolist()
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        processor.close()
+
+
+@app.route('/api/countries')
+def get_countries():
+    processor = TemperatureDataProcessor()
+    try:
+        countries = processor.get_countries_list(eu_only=True)
+        return jsonify(countries)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        processor.close()
+
 
 @app.route('/api/extreme_countries_temperatures/<int:start_year>/<int:end_year>')
 def extreme_countries_temperatures(start_year, end_year):
     processor = TemperatureDataProcessor()
-
     try:
         df = processor.get_extreme_countries_temperatures(start_year, end_year)
-
         return jsonify(df)
-
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     finally:

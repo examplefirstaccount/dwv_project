@@ -6,10 +6,9 @@ class TemperatureDataProcessor:
     def __init__(self, database_url="sqlite:///weather_eu.db"):
         self.engine = create_engine(database_url)
 
-    def get_mean_temperature_by_year(self, start_year, end_year):
+    def get_mean_temperature_by_year(self, start_year, end_year, country=None):
         """
-        Calculate mean annual temperature for Europe across specified years
-        Returns: DataFrame with 'year' and 'mean_temp' columns
+        Calculate mean annual temperature for Europe or specific country
         """
         query = """
         SELECT 
@@ -18,14 +17,21 @@ class TemperatureDataProcessor:
         FROM weather w
         JOIN stations s ON w.station_id = s.id
         WHERE year BETWEEN :start AND :end
+        {country_filter}
         GROUP BY year
         ORDER BY year
-        """
+        """.format(
+            country_filter="AND s.country = :country" if country else ""
+        )
+
+        params = {'start': str(start_year), 'end': str(end_year)}
+        if country:
+            params['country'] = country
 
         df = pd.read_sql_query(
             query,
             self.engine,
-            params={'start': str(start_year), 'end': str(end_year)}
+            params=params
         )
 
         # Data processing
@@ -77,6 +83,14 @@ class TemperatureDataProcessor:
         )
 
         return result
+
+    def get_countries_list(self, eu_only=False):
+        if eu_only:
+            eu_countries = ['GR', 'HU', 'BE', 'GI', 'FR', 'JE', 'FI', 'DE', 'LT', 'CY', 'DK', 'MT', 'BY', 'NO', 'SM', 'IT', 'MC', 'RO', 'SK', 'GB', 'NL', 'AT', 'VA', 'PT', 'UA', 'FO', 'HR', 'ME', 'SI', 'BA', 'IM', 'SJ', 'EE', 'IS', 'CH', 'MK', 'GG', 'BG', 'LU', 'AX', 'ES', 'AM', 'CZ', 'IE', 'KZ', 'PL', 'AD', 'LI', 'GE', 'RS', 'TR', 'MD', 'LV', 'AZ', 'SE', 'AL']
+            return list(sorted(eu_countries))
+        query = "SELECT DISTINCT country FROM stations ORDER BY country"
+        df = pd.read_sql_query(query, self.engine)
+        return df['country'].sort_values().tolist()
 
     def close(self):
         """Clean up resources"""

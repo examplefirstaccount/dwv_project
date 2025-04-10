@@ -12,22 +12,55 @@
     <div class="container">
         <h1>European Climate Trends Dashboard</h1>
 
-        <!-- Feature 1: Continental Temperature Trend -->
+        <!-- Feature 1: Temperature Trends -->
         <div class="feature">
-            <h2>European Mean Temperature by Year</h2>
-            <div class="controls">
-                <div class="input-group">
-                    <label for="start-year">Start Year:</label>
-                    <input type="number" id="start-year" min="1950" max="2020" value="1990">
-                </div>
-                <div class="input-group">
-                    <label for="end-year">End Year:</label>
-                    <input type="number" id="end-year" min="1950" max="2020" value="2020">
-                </div>
-                <button id="update-btn">Update Charts</button>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="europe-tab">Europe</button>
+                <button class="tab-btn" data-tab="country-tab">By Country</button>
             </div>
-            <div class="chart-container">
-                <canvas id="temperatureChart"></canvas>
+
+            <!-- Tab 1: Europe -->
+            <div id="europe-tab" class="tab-content active">
+                <h2>European Mean Temperature by Year</h2>
+                <div class="controls">
+                    <div class="input-group">
+                        <label for="start-year">Start Year:</label>
+                        <input type="number" id="start-year" min="1950" max="2020" value="1990">
+                    </div>
+                    <div class="input-group">
+                        <label for="end-year">End Year:</label>
+                        <input type="number" id="end-year" min="1950" max="2020" value="2020">
+                    </div>
+                    <button id="update-btn">Update Chart</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="temperatureChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Tab 2: By Country -->
+            <div id="country-tab" class="tab-content">
+                <h2>Country Temperature Trends</h2>
+                <div class="controls">
+                    <div class="input-group">
+                        <label for="country-start-year">Start Year:</label>
+                        <input type="number" id="country-start-year" min="1950" max="2020" value="1990">
+                    </div>
+                    <div class="input-group">
+                        <label for="country-end-year">End Year:</label>
+                        <input type="number" id="country-end-year" min="1950" max="2020" value="2020">
+                    </div>
+                    <div class="input-group">
+                        <label for="country-select">Country:</label>
+                        <select id="country-select">
+                            <option value="">Loading countries...</option>
+                        </select>
+                    </div>
+                    <button id="update-country-btn">Update Chart</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="countryTemperatureChart"></canvas>
+                </div>
             </div>
         </div>
 
@@ -40,6 +73,6 @@
         </div>
     </div>
 
-    <script src="main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
