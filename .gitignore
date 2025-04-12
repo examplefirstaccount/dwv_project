@@ -1,5 +1,7 @@
 #backend/*.db
 backend/test.py
+backend/test.ipynb
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
