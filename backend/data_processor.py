@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 
@@ -91,6 +92,39 @@ class TemperatureDataProcessor:
         query = "SELECT DISTINCT country FROM stations ORDER BY country"
         df = pd.read_sql_query(query, self.engine)
         return df['country'].sort_values().tolist()
+
+    def get_heatmap_data(self):
+        eu_countries = self.get_countries_list(eu_only=True)
+
+        query = """
+        SELECT 
+            s.id,
+            s.country,
+            s.latitude,
+            s.longitude,
+            strftime('%Y', w.date) as year,
+            AVG(w.temperature_avg) as temperature_avg
+        FROM weather w
+        JOIN stations s ON w.station_id = s.id
+        WHERE s.country IN ({europe})
+          AND strftime('%Y', w.date) BETWEEN '1950' AND '2020'
+        GROUP BY s.id, year
+        ORDER BY year, s.country
+        """.format(
+            europe=','.join([f"'{c}'" for c in eu_countries])
+        )
+
+        df = pd.read_sql_query(query, self.engine)
+        df['temperature_avg'] = df['temperature_avg'].replace({np.nan: None}).round(2)
+        df['year'] = df['year'].astype(int)
+
+        result = {
+            year: group.drop(columns=['year'])
+            .to_dict('records')
+            for year, group in df.groupby('year')
+        }
+
+        return result
 
     def close(self):
         """Clean up resources"""
