@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>European Climate Trends Analysis</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -71,8 +70,43 @@
                 <canvas id="extremeCountriesChart"></canvas>
             </div>
         </div>
+
+        <!-- Feature 3: European Temperature Heatmap -->
+        <div class="feature">
+            <h2>European Temperature Heatmap</h2>
+            <div class="controls heatmap-controls">
+                <div class="input-group">
+                    <label for="heatmap-year">Year:</label>
+                    <input type="range" id="heatmap-year" min="1950" max="2020" value="2020" step="1">
+                    <span id="year-display">2020</span>
+                </div>
+                <div class="input-group">
+                    <div id="color-scale" class="color-scale">
+                        <div class="color-bar"></div>
+                        <div class="color-labels">
+                            <span>-5</span>
+                            <span>0</span>
+                            <span>5</span>
+                            <span>10</span>
+                            <span>15</span>
+                            <span>20</span>
+                            <span>25</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div id="heatmap-container"></div>
+            </div>
+        </div>
+
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script src="js/main.js"></script>
+    <script src="js/heatmap.js"></script>
 </body>
 </html>
