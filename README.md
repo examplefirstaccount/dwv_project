@@ -1,47 +1,98 @@
 # Weather Data Visualization Project
 
 ## Overview
-This project visualizes historical and current weather data using interactive maps and charts.  
-It uses **Flask** as the backend and **D3.js, Leaflet.js, and Chart.js** for data visualization.
+This project visualizes historical weather data across Europe using interactive maps and charts.  
+The system provides:
+- Temperature trend analysis for Europe and individual countries
+- Identification of extreme temperature countries
+- Heatmap visualization of temperature distribution
 
-## Tech Stack
-- Backend: **Flask, requests**
-- Frontend: **HTML, CSS, JavaScript (D3.js, Leaflet.js, Chart.js)**
-- Data Processing: **Pandas, NumPy**
-- Deployment: **Flask Dev Server on locahost (stopgap)**
+**Tech Stack**:
+- Backend: Flask, SQLite, Pandas, NumPy
+- Frontend: HTML/CSS, JavaScript (Chart.js, Leaflet.js)
+- Data Processing: Meteostat API, Pandas, NumPy
+- Visualization: Matplotlib (heatmap generation), Chart.js
+
+---
+
+## Project Progress
+
+### Data Collection & Processing
+1. **Data Parsing**:
+   - Collected monthly weather data for Europe using Meteostat API
+   - Identified European countries using `country-and-continent-codes-list-csv.csv`
+   - Stored processed data in SQLite database (`weather_eu.db`)
+   - All parsing scripts available in `data/scripts/`
+
+2. **Backend Implementation**:
+   - Created REST API endpoints:
+     - `/api/mean_temperature/<int:start_year>/<int:end_year>` - Europe-wide trends
+     - `/api/country_temperature/<country>/<int:start_year>/<int:end_year>` - Country-specific trends
+     - `/api/extreme_countries_temperatures/<int:start_year>/<int:end_year>` - Top/bottom 3 countries
+     - `/api/countries` - List of available countries (EU only)
+     - `/api/heatmap` - Pre-generated heatmap images
+     - `/api/heatmap_data` - Raw heatmap data
+
+3. **Core Data Processing**:
+   ```python
+   class TemperatureDataProcessor:
+       # Main data access class
+       def get_mean_temperature_by_year(start_year, end_year, country=None)  # Feature 1
+       def get_extreme_countries_temperatures(start_year, end_year)  # Feature 2
+       def get_countries_list(eu_only=False)  # Country list utility
+       def get_heatmap_data()  # Raw heatmap data
+   ```
+
+### Implemented Features
+| Feature | Description | Visualization | Implementation |
+|---------|-------------|---------------|----------------|
+| **Europe Temperature Trends** | Mean yearly temperature for Europe | ![Europe Trends](screenshots/mean_temp_eu.png) | Chart.js, `/api/mean_temperature` |
+| **Country-Specific Trends** | Temperature trends for selected country | ![Country Trends](screenshots/mean_temp_country.png) | Chart.js, country endpoint |
+| **Extreme Countries** | Top/bottom 3 countries by temperature | ![Extreme Trends](screenshots/extreme_trends.png) | Chart.js, extreme endpoint |
+| **Heatmap Visualization** | Temperature distribution across Europe | ![Heatmap](screenshots/heatmap.png) | Matplotlib, RBF interpolation |
+
+### Technical Highlights
+- **Heatmap Generation**:
+  - Uses Radial Basis Function (RBF) interpolation
+  - Applies European land mask to exclude oceans/seas
+  - Pre-rendered for performance (stored as PNGs)
+  
+- **Frontend Components**:
+  - Interactive slider for the heatmap visualisation
+  - Interactive year range selectors
+  - Country dropdown with auto-complete
+  - Responsive chart rendering
 
 ---
 
 ## Installation and Local Deployment
 
-**1. Clone the Repository**
+### Prerequisites
+- Python 3.8+
+
+### Backend Setup
 ```sh
 git clone https://github.com/examplefirstaccount/dwv_project.git
-cd dwv_project
-```
+cd dwv_project/backend
 
-**2. Set Up a Virtual Environment**
-```sh
-cd backend
+# Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate   # For MacOS/Linux
-venv\Scripts\activate      # For Windows
+source venv/bin/activate   # MacOS/Linux
+venv\Scripts\activate      # Windows
+
+# Install dependencies
 pip install -r requirements.txt
-```
 
-**3. Start the Flask Server**
-```sh
-python app.py
+# Start Flask server
+python src/app.py
 ```
-By default, the Flask API will be available at:  
-📍 **http://127.0.0.1:5000/**
+API will be available at: http://127.0.0.1:5000/
 
-**4. Accessing the Frontend**
-- Simply open the file: `frontend/index.html` in your browser.
-- Or run a Simple HTTP Server
+### Frontend Setup
 ```sh
 cd ../frontend
+
+# Run development server
 python -m http.server 8080
 ```
-Then, open:
-📍 **http://localhost:8080/** in your browser.
+Access at: http://localhost:8080/
