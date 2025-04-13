@@ -3,6 +3,8 @@ let temperatureChart;
 let countryTemperatureChart;
 let extremeCountriesChart;
 
+const API_URL = window.appConfig.API_BASE_URL;
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize tabs
@@ -43,7 +45,7 @@ function setupTabs() {
 
 // Load countries for dropdown
 function loadCountries() {
-    axios.get('http://localhost:5000/api/countries')
+    axios.get(`${API_URL}/api/countries`)
         .then(response => {
             const select = document.getElementById('country-select');
             select.innerHTML = '';
@@ -165,7 +167,7 @@ function updateMeanTempYearChart() {
     const startYear = document.getElementById('start-year').value;
     const endYear = document.getElementById('end-year').value;
     
-    axios.get(`http://localhost:5000/api/mean_temperature/${startYear}/${endYear}`)
+    axios.get(`${API_URL}/api/mean_temperature/${startYear}/${endYear}`)
         .then(response => {
             temperatureChart.data.labels = response.data.years;
             temperatureChart.data.datasets[0].data = response.data.temperatures;
@@ -188,7 +190,7 @@ function updateCountryTemperatureChart() {
         return;
     }
     
-    axios.get(`http://localhost:5000/api/country_temperature/${country}/${startYear}/${endYear}`)
+    axios.get(`${API_URL}/api/country_temperature/${country}/${startYear}/${endYear}`)
         .then(response => {
             countryTemperatureChart.data.labels = response.data.years;
             countryTemperatureChart.data.datasets[0].data = response.data.temperatures;
@@ -203,7 +205,7 @@ function updateCountryTemperatureChart() {
 
 // Load extreme countries data
 function loadExtremeCountries() {
-    axios.get('http://localhost:5000/api/extreme_countries_temperatures/1990/2020')
+    axios.get(`${API_URL}/api/extreme_countries_temperatures/1990/2020`)
         .then(response => renderExtremeCountriesChart(response.data))
         .catch(error => {
             console.error('Error loading extreme countries:', error);
