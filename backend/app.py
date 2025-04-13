@@ -7,7 +7,7 @@ from data_processor import TemperatureDataProcessor
 
 app = Flask(__name__)
 CORS(app)
-IMAGE_DIR = 'precomputed_heatmaps'
+IMAGE_DIR = 'data/heatmaps'
 
 
 @app.route('/api/hello', methods=['GET'])

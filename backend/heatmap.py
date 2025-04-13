@@ -10,7 +10,7 @@ from data_processor import TemperatureDataProcessor
 V_MIN = -5  # -23.6
 V_MAX = 25  # 30.4
 GRID_SIZE = 1000
-IMAGE_DIR = 'precomputed_heatmaps'
+IMAGE_DIR = 'data/heatmaps'
 os.makedirs(IMAGE_DIR, exist_ok=True)
 
 processor = TemperatureDataProcessor()
@@ -49,7 +49,7 @@ def generate_and_save_heatmaps():
         grid_temp = rbf(grid_lon, grid_lat)
 
         # Apply land mask
-        land_mask = np.load('europe_land_mask.npy')
+        land_mask = np.load('data/europe_land_mask.npy')
         grid_temp = np.where(land_mask, grid_temp, np.nan)
 
         # Save the image with no axes, labels, borders, etc.
@@ -67,7 +67,3 @@ def generate_and_save_heatmaps():
         plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
         fig.savefig(output_path, dpi=100, bbox_inches='tight', pad_inches=0, transparent=True)
         plt.close(fig)
-
-
-if __name__ == '__main__':
-    generate_and_save_heatmaps()

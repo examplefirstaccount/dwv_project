@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 
 
 class TemperatureDataProcessor:
-    def __init__(self, database_url="sqlite:///weather_eu.db"):
+    def __init__(self, database_url="sqlite:///data/weather_eu.db"):
         self.engine = create_engine(database_url)
 
     def get_mean_temperature_by_year(self, start_year, end_year, country=None):

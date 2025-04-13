@@ -31,4 +31,4 @@ def generate_eu_land_mask():
                 LAT_MIN + (LAT_MAX-LAT_MIN)*i/GRID_SIZE,
                 land_polygons
             )
-    np.save('europe_land_mask.npy', land_mask)
+    np.save('data/europe_land_mask.npy', land_mask)
