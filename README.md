@@ -15,6 +15,39 @@ The system provides:
 
 ---
 
+## Repository Structure
+
+```
+├── backend
+│   ├── app.py
+│   ├── data_processor.py
+│   ├── heatmap.py
+│   ├── land_mask.py
+│   ├── requirements.txt
+│   └── data
+│       ├── heatmaps
+│       ├── scripts
+│       ├── country-and-continent-codes-list-csv.csv
+│       ├── europe_land_mask.npy
+│       ├── weather_eu.db
+│       └── weather_ru.db
+├── frontend
+│   ├── index.html
+│   ├── js
+│   │   ├── heatmap.js
+│   │   └── main.js
+│   └── styles.css
+└── screenshots
+```
+
+Key Folders:
+- `backend/`: Flask application and data processing
+- `frontend/`: Interactive visualization dashboard
+- `data/`: Contains all databases, preprocessed files and parsing scripts
+- `screenshots/`: Example visualizations of the project
+
+---
+
 ## Project Progress
 
 ### Data Collection & Processing
