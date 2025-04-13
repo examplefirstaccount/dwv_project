@@ -126,6 +126,41 @@ class TemperatureDataProcessor:
 
         return result
 
+    def get_monthly_extremes_by_year(self, month, start_year, end_year, country=None):
+        """
+        Get min and max temperatures for a specific month over a range of years
+        """
+        query = """
+        SELECT 
+            strftime('%Y', w.date) AS year,
+            MIN(w.temperature_avg) AS min_temp,
+            MAX(w.temperature_avg) AS max_temp
+        FROM weather w
+        JOIN stations s ON w.station_id = s.id
+        WHERE strftime('%m', w.date) = :month
+          AND strftime('%Y', w.date) BETWEEN :start AND :end
+          {country_filter}
+        GROUP BY year
+        ORDER BY year
+        """.format(
+            country_filter="AND s.country = :country" if country else ""
+        )
+    
+        params = {
+            'month': f"{int(month):02d}",
+            'start': str(start_year),
+            'end': str(end_year),
+        }
+        if country:
+            params['country'] = country
+    
+        df = pd.read_sql_query(query, self.engine, params=params)
+        df['year'] = df['year'].astype(int)
+        df['min_temp'] = df['min_temp'].round(2)
+        df['max_temp'] = df['max_temp'].round(2)
+        return df
+
+
     def close(self):
         """Clean up resources"""
         self.engine.dispose()
