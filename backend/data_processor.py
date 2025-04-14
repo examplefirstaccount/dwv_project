@@ -160,6 +160,19 @@ class TemperatureDataProcessor:
         df['max_temp'] = df['max_temp'].round(2)
         return df
 
+    def get_all(self, year, country):
+        query = """
+        SELECT date, precipitation
+        FROM weather w
+        JOIN stations s ON w.station_id = s.id
+        WHERE s.country = ? AND strftime('%Y', w.date) = ?
+        """
+        df = pd.read_sql_query(
+            query,
+            self.engine,
+            params=(country, str(year))  # year нужно преобразовать в строку для strftime
+        )
+        return df
 
     def close(self):
         """Clean up resources"""
