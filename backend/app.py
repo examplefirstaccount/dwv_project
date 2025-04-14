@@ -1,5 +1,6 @@
 import os
 
+import pandas as pd
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 
@@ -89,6 +90,39 @@ def get_heatmap():
         return send_file(image_path, mimetype='image/png')
     else:
         return {'error': 'Year out of range or not found'}, 400
+
+
+@app.route('/api/precipitation')
+def get_mean_precipitation():
+    country = request.args.get('country')
+    year = int(request.args.get('year', 2020))
+    processor = TemperatureDataProcessor()
+    try:
+        df = processor.get_all(year, country)
+        df['precipitation'] = pd.to_numeric(df['precipitation'], errors='coerce')
+        df.dropna(inplace=True)
+        grouped = df.groupby("date").mean()
+        return jsonify(grouped.to_dict(orient="index"))
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        processor.close()
+
+@app.route('/api/min_max')
+def get_min_max():
+    month = int(request.args.get('month', 1))
+    start_year = int(request.args.get('start_year', 2020))
+    end_year = int(request.args.get('end_year', 2020))
+    processor = TemperatureDataProcessor()
+    try:
+        df = processor.get_monthly_extremes_by_year(month, start_year, end_year)
+        return jsonify(df.to_dict(orient='records'))
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        processor.close()
+
+
 
 
 if __name__ == '__main__':
