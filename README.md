@@ -98,18 +98,29 @@ Key Folders:
 
 ---
 
+## Installation via Docker
+```sh
+git clone https://github.com/Data-Wrangling-and-Visualisation/Weather-Visualization.git
+cd Weather-Visualization
+
+docker compose up --build -d
+open http://localhost
+```
+
+---
+
 ## Installation and Local Deployment
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.12
 
 ### Backend Setup
 ```sh
-git clone https://github.com/examplefirstaccount/dwv_project.git
-cd dwv_project/backend
+git clone https://github.com/Data-Wrangling-and-Visualisation/Weather-Visualization.git
+cd Weather-Visualization/backend
 
 # Create and activate virtual environment
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate   # MacOS/Linux
 venv\Scripts\activate      # Windows
 
@@ -117,7 +128,7 @@ venv\Scripts\activate      # Windows
 pip install -r requirements.txt
 
 # Start Flask server
-python src/app.py
+python app.py
 ```
 API will be available at: http://127.0.0.1:5000/
 
@@ -126,6 +137,6 @@ API will be available at: http://127.0.0.1:5000/
 cd ../frontend
 
 # Run development server
-python -m http.server 8080
+python3 -m http.server 8080
 ```
 Access at: http://localhost:8080/
