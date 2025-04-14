@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const ctx = document.getElementById('minmaxTemperatureChart').getContext('2d');
+    const API_URL = window.appConfig.API_BASE_URL;
 
     let chart = new Chart(ctx, {
         type: 'line',
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const endYear = document.getElementById('minmax-end-year').value;
 
         try {
-            const res = await axios.get('http://localhost:5000/api/min_max', {
+            const res = await axios.get(`${API_URL}/api/min_max`, {
                 params: {
                     month,
                     start_year: startYear,

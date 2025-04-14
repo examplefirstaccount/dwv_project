@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const API_URL = window.appConfig.API_BASE_URL;
     const svg = d3.select('#precipitation-chart');
     const margin = { top: 20, right: 30, bottom: 50, left: 60 };
     const width = +svg.attr('width') - margin.left - margin.right;
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const year = document.getElementById('precipitation-year').value;
 
         try {
-            const res = await axios.get('http://localhost:5001/api/precipitation', {
+            const res = await axios.get(`${API_URL}/api/precipitation`, {
                 params: { country, year }
             });
             const raw = res.data;
@@ -60,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Заполнение списка стран, можно взять с того же API, откуда берется страна для температур
-    axios.get('http://localhost:5000/api/countries') // предполагаемое API, замени на актуальное
+    axios.get(`${API_URL}/api/countries`) // предполагаемое API, замени на актуальное
         .then(res => {
             const select = document.getElementById('precipitation-country');
             select.innerHTML = '';
