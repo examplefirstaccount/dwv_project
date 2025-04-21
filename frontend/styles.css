@@ -282,3 +282,8 @@ svg {
     display: block;
     margin: 0 auto;
 }
+
+#minmaxTemperatureChart {
+    display: block;
+    margin: 0 auto;
+}
